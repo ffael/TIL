@@ -32,7 +32,7 @@ const listNotes = function(){
   }
 }
 
-const addNote = function(title, body){
+const addNote = function(title, body=""){
   return fs.writeFileSync(`${title}.txt`, body)
 }
 
