@@ -9,7 +9,7 @@ const errorMsg = function(message) {
 }
 
 const checkNote = function(title){
-  const file = `${__dirname}/${title}.txt`
+  const file = `${__dirname}/notes/${title}.json`
   if(!fs.existsSync(file)){
     return false
   }
@@ -20,8 +20,8 @@ const checkNote = function(title){
 const listNotes = function(){
   let isNote = false;
   
-  fs.readdirSync(__dirname).forEach(function(note){
-    if(note.endsWith('.txt')){
+  fs.readdirSync(`${__dirname}/notes/`).forEach(function(note){
+    if(note.endsWith('.json')){
       successMsg(note)
       isNote = true;
     }
@@ -33,7 +33,15 @@ const listNotes = function(){
 }
 
 const addNote = function(title, body=""){
-  return fs.writeFileSync(`${title}.txt`, body)
+  const note = {
+    title,
+    body
+  }
+  const data = JSON.stringify(note)
+  if(!fs.existsSync('notes/')){
+    fs.mkdirSync('notes')
+  }
+  return fs.writeFileSync(`${__dirname}/notes/${title}.json`, data)
 }
 
 const removeNote = function(title){
@@ -49,8 +57,9 @@ const readNote = function(title){
   if(!checkNote(title)){
     return errorMsg('File Not Found')
   }
+  const data = JSON.parse(fs.readFileSync(checkNote(title)))
 
-  return console.log(fs.readFileSync(checkNote(title), 'utf8'))
+  return console.log(data)
 
 }
 
