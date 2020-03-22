@@ -10,7 +10,8 @@ yargs.command({
   builder:{
     title:{
       describe: 'Note Title',
-      demandOption: true
+      demandOption: true,
+      type: 'string'
     },
     body:{
       describe: 'Note Content'
@@ -28,7 +29,8 @@ yargs.command({
   builder: {
     title:{
       describe: 'Note Title',
-      demandOption: true
+      demandOption: true,
+      type: 'string'
     }
   },
   handler: function(argv){
@@ -52,7 +54,8 @@ yargs.command({
   builder:{
     title:{
       describe: 'Note Title',
-      demandOption: true
+      demandOption: true,
+      type: 'string'
     }
   },
   handler: function(argv){
