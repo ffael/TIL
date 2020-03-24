@@ -1,66 +1,54 @@
 const fs = require('fs')
 const chalk = require('chalk')
 
-const successMsg = function(message) {
-  return console.log(chalk.green.bgBlack.bold(message))
-}
-const errorMsg = function(message) {
-  return console.log(chalk.red.bgBlack.bold(message))
-}
+const successMsg = message => console.log(chalk.green.bgBlack.bold(message))
+const errorMsg = message => console.log(chalk.red.bgBlack.bold(message))
 
-const checkNote = function(title){
-  const file = `${__dirname}/notes/${title}.json`
-  if(!fs.existsSync(file)){
-    return false
-  }
 
-  return file
-}
-
-const listNotes = function(){
-  let isNote = false;
-  
-  fs.readdirSync(`${__dirname}/notes/`).forEach(function(note){
-    if(note.endsWith('.json')){
-      successMsg(note)
-      isNote = true;
-    }
+const addNote = (title, body) => {
+  const notes = loadNotes()
+  const duplicateNotes = notes.filter(function(note){
+    return note.title === title
   })
-
-  if(!isNote){
-    return errorMsg('There is No Notes!')
+  if(duplicateNotes != 0){
+    return errorMsg('Title Must Be Unique!')
   }
-}
-
-const addNote = function(title, body=""){
-  const note = {
+  notes.push({
     title,
     body
-  }
-  const data = JSON.stringify(note)
-  if(!fs.existsSync('notes/')){
-    fs.mkdirSync('notes')
-  }
-  return fs.writeFileSync(`${__dirname}/notes/${title}.json`, data)
+  })
+
+  saveNotes(notes)
+  successMsg('New Note Added!')
 }
 
-const removeNote = function(title){
-  if(!checkNote(title)){
-    return errorMsg('File Not Found!')
+const removeNote = (title) =>{
+  const notes = loadNotes()
+  const keepNotes = notes.filter(function(note){
+    return note.title !== title
+  })
+  saveNotes(keepNotes)
+  if(keepNotes.length !== notes.length){
+    successMsg('Note Removed!')
+  }else{
+    errorMsg('Note Not Found!')
   }
-
-  fs.unlinkSync(checkNote(title))
-  return successMsg('Note Deleted!') 
 }
 
-const readNote = function(title){
-  if(!checkNote(title)){
-    return errorMsg('File Not Found')
+const loadNotes = () =>{
+  try{
+    const dataBuffer = fs.readFileSync('notes.json')
+    const dataString = dataBuffer.toString()
+    return JSON.parse(dataString)
+
+  }catch(e){
+    return []
   }
-  const data = JSON.parse(fs.readFileSync(checkNote(title)))
-
-  return console.log(data)
-
 }
 
-module.exports = { listNotes, addNote, removeNote, readNote }
+const saveNotes = (notes) =>{
+  const dataJSON = JSON.stringify(notes)
+  fs.writeFileSync('notes.json', dataJSON)
+}
+
+module.exports = { addNote, removeNote }
