@@ -14,7 +14,9 @@ yargs.command({
       type: 'string'
     },
     body:{
-      describe: 'Note Content'
+      describe: 'Note Content',
+      demandOption: true,
+      type: 'string'
     }
   },
   handler: (argv) => notes.addNote(argv.title, argv.body)
