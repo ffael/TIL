@@ -1,17 +1,24 @@
 const axios = require('axios')
+const weatherURL = `https://api.darksky.net/forecast/${process.env.APIKEY}/`
 
-const url = `https://api.darksky.net/forecast/${process.env.APIKEY}/40.7487727,-73.9849336`
-
-async function getData(){
+async function getData(location, units='us', lang="en"){
+  const geoURL = `https://api.mapbox.com/geocoding/v5/mapbox.places/${location}.json?access_token=${process.env.MAPBOXKEY}`
   try{
-    const res = await axios.get(url, { params: { units: 'us', exclude:'flags, minutely, hourly'} })
+    const mapBox = await axios.get(geoURL)
+    const place = mapBox.data.features[0].place_name
+    const lat = mapBox.data.features[0].center[0];
+    const lon = mapBox.data.features[0].center[1];
+
+    const res = await axios.get(`${weatherURL}${lon},${lat}`, { params: { units, exclude:'flags, minutely, hourly', lang} })
+
     const { temperature, precipProbability } = res.data.currently
     const { daily } = res.data
     
-    console.log(`${daily.data[0].summary} It is currently ${temperature} degrees out. There is a ${precipProbability}% chance of rain.`)
+    console.log(place)
+    console.log(`${daily.data[0].summary} It is currently ${Math.round(temperature)}degrees out. There is a ${precipProbability}% chance of rain.`)
   }catch(err){
     console.log(err)
   }
 }
 
-getData()
+getData('Boston', 'us', 'en')
