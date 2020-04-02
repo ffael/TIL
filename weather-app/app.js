@@ -5,6 +5,9 @@ async function getData(location, units='us', lang="en"){
   const geoURL = `https://api.mapbox.com/geocoding/v5/mapbox.places/${location}.json?access_token=${process.env.MAPBOXKEY}`
   try{
     const mapBox = await axios.get(geoURL)
+    if(mapBox.data.features.length === 0){
+      return console.log('Could not find location! Try another search!')
+    }
     const place = mapBox.data.features[0].place_name
     const lat = mapBox.data.features[0].center[0];
     const lon = mapBox.data.features[0].center[1];
