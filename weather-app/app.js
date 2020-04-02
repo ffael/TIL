@@ -1,7 +1,7 @@
 const axios = require('axios')
-const weatherURL = `https://api.darksky.net/forecast/${process.env.APIKEY}/`
 
 async function getData(location, units='us', lang="en"){
+  const weatherURL = `https://api.darksky.net/forecast/${process.env.APIKEY}/`
   const geoURL = `https://api.mapbox.com/geocoding/v5/mapbox.places/${location}.json?access_token=${process.env.MAPBOXKEY}`
   try{
     const mapBox = await axios.get(geoURL)
@@ -17,7 +17,7 @@ async function getData(location, units='us', lang="en"){
     console.log(place)
     console.log(`${daily.data[0].summary} It is currently ${Math.round(temperature)}degrees out. There is a ${precipProbability}% chance of rain.`)
   }catch(err){
-    console.log(err)
+    console.log('Unable to connect to weather service!')
   }
 }
 
