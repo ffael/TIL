@@ -13,7 +13,7 @@ async function getGeoCoding (location, callBack) {
     const lat = response.data.features[0].center[0];
     const lon = response.data.features[0].center[1];
 
-    callBack(place, lat, lon)
+    callBack(place, lon, lat)
 
   }catch(err){
     console.log('Unable to connect to weather service!')
