@@ -10,7 +10,8 @@
     "nodemon": "^2.0.2"
   },
   "scripts": {
-    "dev": "env-cmd -f .env nodemon app.js"
+    "dev": "env-cmd -f .env nodemon app.js",
+    "inspect": "node inspect app.js"
   },
   "dependencies": {
     "axios": "^0.19.2"
