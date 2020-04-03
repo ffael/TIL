@@ -1,7 +1,7 @@
 const axios = require('axios')
 
 async function getGeoCoding (location, callBack) {
-  const geoURL = `https://api.mapbox.com/geocoding/v5/mapbox.places/${location}.json?access_token=${process.env.MAPBOXKEY}`
+  const geoURL = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(location)}.json?access_token=${process.env.MAPBOXKEY}`
 
   try{
     const response = await axios.get(geoURL)
