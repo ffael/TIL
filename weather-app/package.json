@@ -10,7 +10,7 @@
     "nodemon": "^2.0.2"
   },
   "scripts": {
-    "dev": "env-cmd -f .env nodemon app.js",
+    "dev": "env-cmd -f .env node app.js 'Curitiba, Paraná, Brazil'",
     "inspect": "node inspect app.js"
   },
   "dependencies": {
