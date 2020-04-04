@@ -1,0 +1,17 @@
+{
+  "name": "webserver",
+  "version": "1.0.0",
+  "description": "Simple Web Server with ExpressJS",
+  "main": "app.js",
+  "author": "Rafael Ferreira",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "scripts":{
+    "dev": "nodemon ./src/app.js"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
